@@ -1,12 +1,5 @@
 const router = require('express').Router();
-
-// const queries = require('../db/queries');
 const knex = require('../db/connection');
-
-// router.get('/roles', async (req, res) => {
-//     const allRoles = await queries.getAll();
-//     res.json(allRoles);
-// });
 
 router.get('/', async (req, res) => {
     const allRoles = await knex('roles');
