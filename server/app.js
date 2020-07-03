@@ -1,8 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const rolesRoute = require('./routes/roles');
-const usersRoute = require('./routes/users');
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const app = express();
 
@@ -11,8 +9,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/roles', rolesRoute);
-app.use('/users', usersRoute);
+app.use('/roles', require('./routes/roles'));
+app.use('/users', require('./routes/users'));
+app.use('/expenses', require('./routes/expenses'));
 
 app.use(notFound);
 app.use(errorHandler);
