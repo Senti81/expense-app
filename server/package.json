@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
