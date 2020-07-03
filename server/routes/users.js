@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+const knex = require('../db/connection');
+
+router.get('/users', async (req, res) => {
+    const allUsers = await knex('users');
+    res.json(allUsers);
 });
 
 module.exports = router;
