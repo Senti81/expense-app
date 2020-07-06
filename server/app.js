@@ -11,6 +11,7 @@ app.use(cookieParser());
 
 app.use('/users', require('./routes/users'));
 app.use('/expenses', require('./routes/expenses'));
+app.use('/auth', require('./routes/auth'));
 
 app.use(notFound);
 app.use(errorHandler);
