@@ -2,18 +2,18 @@ const router = require('express').Router();
 const knex = require('../db/connection');
 
 router.get('/', async (req, res) => {
-    const allRoles = await knex('expenses');
-    res.json(allRoles);
+    const allExpenses = await knex('expenses');
+    res.json(allExpenses);
 });
 
 router.get('/:id', async (req, res, next) => {
-    const roleById = await getById(req.params.id).first();
-    roleById ? res.json(roleById) : next();
+    const expenseById = await getById(req.params.id).first();
+    expenseById ? res.json(expenseById) : next();
 });
 
 router.get('/users/:id', async (req, res, next) => {
     const expensesByUser = await knex('expenses').where('user_id', req.params.id);
-    expensesByUser ? res.json(expensesByUser) : next();
+    expensesByUser.length > 0 ? res.json(expensesByUser) : next();
 });
 
 router.post('/', async (req, res) => {
@@ -22,13 +22,13 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res, next) => {
-    const updatedRole = await getById(req.params.id).update(req.body);
-    updatedRole === 1 ? res.json(await getById(req.params.id).first()) : next();
+    const updatedExpense = await getById(req.params.id).update(req.body);
+    updatedExpense === 1 ? res.json(await getById(req.params.id).first()) : next();
 });
 
 router.delete('/:id', async (req, res, next) => {
-    const deletedRole = await getById(req.params.id).del();
-    deletedRole === 1 ? res.json(deletedRole) : next();
+    const deletedExpense = await getById(req.params.id).del();
+    deletedExpense === 1 ? res.json(deletedExpense) : next();
 });
 
 function getById(id) {
