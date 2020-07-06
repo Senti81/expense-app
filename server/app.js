@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/roles', require('./routes/roles'));
 app.use('/users', require('./routes/users'));
 app.use('/expenses', require('./routes/expenses'));
 
