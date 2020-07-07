@@ -1,8 +1,11 @@
 const router = require('express').Router();
 const knex = require('../db/connection');
+const { from } = require('../db/connection');
 
 router.get('/', async (req, res) => {
-    const allRoles = await knex('users');
+    const allRoles = await knex('users')
+        .join('roles', 'role_id', '=', 'roles.id')
+        .select('users.name as user', 'email', 'roles.name as role', 'created_at');
     res.json(allRoles);
 });
 
