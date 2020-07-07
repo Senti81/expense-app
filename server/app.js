@@ -13,6 +13,11 @@ app.use('/users', require('./routes/users'));
 app.use('/expenses', require('./routes/expenses'));
 app.use('/auth', require('./routes/auth'));
 
+app.use(express.static(__dirname + '/public'));
+app.get(/.*/, (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+})
+
 app.use(notFound);
 app.use(errorHandler);
 
