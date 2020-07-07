@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     async getAllUsers() {
-      const allUsers = await axios.get('/users');
+      const allUsers = await axios.get('api/users');
       this.items = allUsers.data;
     }
   },

@@ -11,9 +11,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-app.use('/users', require('./routes/users'));
-app.use('/expenses', require('./routes/expenses'));
-app.use('/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/expenses', require('./routes/expenses'));
+app.use('/api/auth', require('./routes/auth'));
 
 app.use(express.static(__dirname + '/public'));
 app.get(/.*/, (req, res) => {
