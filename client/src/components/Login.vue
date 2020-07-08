@@ -21,14 +21,13 @@
             </b-form-group>
             <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
-        <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ formResponse }}</pre>
-        </b-card>  
     </b-container>
 </template>
 
 <script>
 import axios from 'axios';
+import {eventBus} from "../main";
+
 export default {
     data() {
         return {
@@ -36,8 +35,7 @@ export default {
                 email: '',
                 password: ''
             },
-            formResponse: '',
-            show: true
+            show: true,
         }
     },
     methods: {
@@ -50,10 +48,9 @@ export default {
                 this.form.email = ''
                 this.form.password = ''
             } else {
-                const token = response.token
-                localStorage.setItem('Authorization', token)
+                localStorage.setItem('Authorization', response.token)
                 this.show = false;
-                this.validateToken();
+                eventBus.$emit('showExpenses');
             }
         },
         async validateToken() {
