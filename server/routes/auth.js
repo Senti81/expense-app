@@ -29,7 +29,10 @@ router.post('/', async (req, res) => {
             expiresIn: process.env.JWT_EXPIRES
         }
     );
-    res.send(token);
+    res.send({
+        success: true,
+        token
+    });
 });
 
 module.exports = router;
