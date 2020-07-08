@@ -3,7 +3,9 @@ const knex = require('../db/connection');
 const verify = require('../middlewares/verifyToken');
 
 router.get('/', verify, async (req, res) => {
-    const allExpenses = await knex('expenses');
+    const allExpenses = await knex('expenses')
+        .join('users', 'user_id', '=', 'users.id')
+        .select('users.name as Name', 'amount', 'expenses.created_at');
     res.json(allExpenses);
 });
 
