@@ -50,23 +50,7 @@ export default {
             } else {
                 localStorage.setItem('Authorization', response.token)
                 this.show = false;
-                eventBus.$emit('login successful');
-            }
-        },
-        async validateToken() {
-            const tokenFromStorage = localStorage.getItem('Authorization')
-            if(tokenFromStorage) {
-                try {
-                    this.show = false;
-                    const response = await axios.get('api/expenses', {
-                        headers: { 'Authorization': tokenFromStorage}
-                    })
-                    this.formResponse = response.data
-                    
-                } catch (error) {
-                    localStorage.clear();
-                    this.show = true
-                }
+                eventBus.$emit('login', response.token);
             }
         },
         makeToast(message) {
@@ -78,9 +62,6 @@ export default {
                 autoHideDelay: 5000
             })
         }
-    },
-    mounted() {
-        this.validateToken()
     }
 }
 </script>

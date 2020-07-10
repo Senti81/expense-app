@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <Navbar :loggedIn="loggedIn"/>
+    <Navbar 
+      :loggedIn="loggedIn"
+      :userName="userName"
+      />
     <Login v-if="!loggedIn"/>
     <Expenses v-if="loggedIn"/>
   </div>
@@ -10,6 +13,8 @@
 import Navbar from './components/Navbar'
 import Login from './components/Login'
 import Expenses from './components/Expenses'
+
+import axios from 'axios'
 
 import { eventBus } from './main'
 
@@ -22,15 +27,17 @@ export default {
   },
   data() {
     return {
-      loggedIn: false
+      loggedIn: false,
+      userName: ''
     }
   },
   methods: {
     async validateToken() {
-      const tokenFromStorage = localStorage.getItem('Authorization')
-      if(tokenFromStorage) {
+      this.jwtToken = localStorage.getItem('Authorization')
+      if(this.jwtToken) {
         try {
           this.loggedIn = true
+          eventBus.$emit('login', this.jwtToken)
         } catch (error) {
           localStorage.removeItem('Authorization')
         }
@@ -38,8 +45,12 @@ export default {
     },
   },
   created() {
-    eventBus.$on('login successful', () => {
-      this.loggedIn = true 
+    eventBus.$on('login', async (token) => {
+      this.loggedIn = true
+      const userDetails = await axios.get('/api/auth', {
+        headers: { 'Authorization': token}
+      })
+      this.userName = userDetails.data.name
     })
     eventBus.$on('logout', () => {
       localStorage.removeItem('Authorization')
