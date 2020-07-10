@@ -6,8 +6,8 @@
         <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto" v-if="loggedIn">
             <b-nav-form>
-                <b-form-input size="sm" class="mr-sm-2" placeholder="New Expense"></b-form-input>
-                <b-button size="sm" class="my-2 my-sm-0" type="submit">Add</b-button>
+                <b-form-input size="sm" class="mr-sm-2" placeholder="New Expense" v-model="form.amount"></b-form-input>
+                <b-button size="sm" class="my-2 my-sm-0" type="submit" @click="addExpense">Add</b-button>
                 <b-nav-item-dropdown right>
                     <template v-slot:button-content>
                         <em>{{userName}}</em>
@@ -24,15 +24,36 @@
 
 <script>
 import { eventBus } from '../main'
+import axios from 'axios'
 
 export default {
     props: {
         loggedIn: Boolean,
-        userName: String
+        userName: String,
+        token: String
+    },
+    data() {
+        return {
+            form: {
+                amount: ''
+            },    
+        }
     },
     methods: {
         logout() {
             eventBus.$emit('logout')
+        },
+        async addExpense(e) {
+            e.preventDefault()
+            try {
+                await axios.post('api/expenses', this.form, {
+                    headers: { 'Authorization': this.token }
+                })
+                eventBus.$emit('update expenses')
+                this.form.amount = ''
+            } catch (error) {
+                // error handling
+            }
         }
     }
 }

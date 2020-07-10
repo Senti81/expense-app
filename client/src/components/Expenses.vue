@@ -6,6 +6,7 @@
 
 <script>
 import axios from 'axios';
+import { eventBus } from '../main'
 
 export default {
     data() {
@@ -33,6 +34,11 @@ export default {
     },
     mounted() {
         this.loadExpenses()            
+    },
+    created() {
+        eventBus.$on('update expenses', () => {
+            this.loadExpenses();
+        })
     }
 }
 </script>

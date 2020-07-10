@@ -3,6 +3,7 @@
     <Navbar 
       :loggedIn="loggedIn"
       :userName="userName"
+      :token="token"
       />
     <Login v-if="!loggedIn"/>
     <Expenses v-if="loggedIn"/>
@@ -28,7 +29,8 @@ export default {
   data() {
     return {
       loggedIn: false,
-      userName: ''
+      userName: '',
+      token: ''
     }
   },
   methods: {
@@ -46,9 +48,10 @@ export default {
   },
   created() {
     eventBus.$on('login', async (token) => {
+      this.token = token
       this.loggedIn = true
       const userDetails = await axios.get('/api/auth', {
-        headers: { 'Authorization': token}
+        headers: { 'Authorization': token }
       })
       this.userName = userDetails.data.name
     })
