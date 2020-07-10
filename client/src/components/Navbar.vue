@@ -6,7 +6,7 @@
         <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto" v-if="loggedIn">
             <b-nav-form>
-                <b-form-input size="sm" class="mr-sm-2" placeholder="New Expense" v-model="form.amount"></b-form-input>
+                <b-form-input size="sm" class="mr-sm-2" type="number" placeholder="New Expense" v-model="form.amount"></b-form-input>
                 <b-button size="sm" class="my-2 my-sm-0" type="submit" @click="addExpense">Add</b-button>
                 <b-nav-item-dropdown right>
                     <template v-slot:button-content>
@@ -49,10 +49,23 @@ export default {
                 await axios.post('api/expenses', this.form, {
                     headers: { 'Authorization': this.token }
                 })
+                this.$bvToast.toast(`Updated Expense`, {
+                    title: 'Success',
+                    variant: 'success',
+                    solid: true,
+                    toaster: 'b-toaster-top-center',
+                    autoHideDelay: 3000
+                })
                 eventBus.$emit('update expenses')
                 this.form.amount = ''
             } catch (error) {
-                // error handling
+                this.$bvToast.toast(`${error}`, {
+                    title: 'Success',
+                    variant: 'danger',
+                    solid: true,
+                    toaster: 'b-toaster-top-center',
+                    autoHideDelay: 3000
+                })
             }
         }
     }

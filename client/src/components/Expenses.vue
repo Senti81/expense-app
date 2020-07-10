@@ -36,9 +36,7 @@ export default {
         this.loadExpenses()            
     },
     created() {
-        eventBus.$on('update expenses', () => {
-            this.loadExpenses();
-        })
+        eventBus.$on('update expenses', () => this.loadExpenses())
     }
 }
 </script>
