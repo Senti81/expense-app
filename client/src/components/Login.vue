@@ -50,7 +50,7 @@ export default {
             } else {
                 localStorage.setItem('Authorization', response.token)
                 this.show = false;
-                eventBus.$emit('showExpenses');
+                eventBus.$emit('login successful');
             }
         },
         async validateToken() {
