@@ -2,11 +2,16 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const knex = require('../db/connection');
+const verify = require('../middlewares/verifyToken');
 
 const errorMessage = {
     success: false,
     message: `Email or password is wrong`
 };
+
+router.get('/', verify, async (req, res) => {
+    res.status(200).send(req.user);
+});
 
 router.post('/', async (req, res) => {
     const user = await knex('users').where('email', req.body.email).first();
