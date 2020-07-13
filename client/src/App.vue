@@ -5,7 +5,7 @@
       :userName="userName"
       :token="token"
       />
-      <div class="container loginJumbotron">
+      <div class="container">
         <Login v-if="!loggedIn"/>        
       </div>
     <Expenses v-if="loggedIn"/>
@@ -68,9 +68,3 @@ export default {
 }
 </script>
 
-<style>
-  .loginJumbotron {
-    padding: 5%;
-    align-content: space-around;
-  }
-</style>

@@ -1,4 +1,5 @@
 <template>
+<div class="loginContainer">
   <b-jumbotron bg-variant="dark" text-variant="white" border-variant="dark">
     <template v-slot:header>Login</template>
     <template v-slot:lead>
@@ -28,7 +29,8 @@
         </div>
         <b-button class="loginBtn" block size="lg" type="submit" variant="primary">Login</b-button>
     </b-form>
-  </b-jumbotron>    
+  </b-jumbotron>
+</div>
 </template>
 
 <script>
@@ -66,6 +68,9 @@ export default {
 </script>
 
 <style scoped>
+    .loginContainer {
+        margin-top: 60px;
+    }
     .msg {
         margin: 0.5em 0.5em;
         text-align: start;
