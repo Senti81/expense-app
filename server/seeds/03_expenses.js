@@ -4,23 +4,11 @@ exports.seed = function(knex) {
     .then(function () {
       return knex('expenses').insert([
         {
-          amount: 123.50,
+          amount: 10.00,
           user_id: 1
         },
         {
-          amount: 9.99,
-          user_id: 1
-        },
-        {
-          amount: 0.50,
-          user_id: 2
-        },
-        {
-          amount: 999.99,
-          user_id: 2
-        },
-        {
-          amount: 1234.67,
+          amount: 20.00,
           user_id: 2
         },
       ]);
