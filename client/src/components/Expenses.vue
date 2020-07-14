@@ -9,7 +9,7 @@ import axios from 'axios';
 import { eventBus } from '../main'
 
 export default {
-    data() {
+		data() {
         return {
             items: [],
             show: true

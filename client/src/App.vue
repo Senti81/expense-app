@@ -1,34 +1,29 @@
 <template>
   <v-app>
     <v-main>
-      <Navbar 
-        :loggedIn="loggedIn"
+      <AppNav v-if="loggedIn"
         :userName="userName"
         :token="token"
       />
       <div class="container">
         <Login v-if="!loggedIn"/>        
       </div>
-    <Expenses v-if="loggedIn"/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Navbar from './components/Navbar'
 import Login from './components/Login'
-import Expenses from './components/Expenses'
+import AppNav from './components/AppNav'
 
 import axios from 'axios'
-
 import { eventBus } from './main'
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    AppNav,
     Login,
-    Expenses
   },
   data() {
     return {
