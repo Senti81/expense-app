@@ -1,15 +1,17 @@
 <template>
-  <div id="app">
-    <Navbar 
-      :loggedIn="loggedIn"
-      :userName="userName"
-      :token="token"
+  <v-app>
+    <v-main>
+      <Navbar 
+        :loggedIn="loggedIn"
+        :userName="userName"
+        :token="token"
       />
       <div class="container">
         <Login v-if="!loggedIn"/>        
       </div>
     <Expenses v-if="loggedIn"/>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
