@@ -6,9 +6,9 @@
       dark
     >
     <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>Expense App 💲</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <AddExpense :token="token"/>
+      <v-toolbar-title>Expense App 💲</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <AddExpense :token="token"/>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -46,9 +46,9 @@
       class="overflow-y-auto"
       max-height="800px"
     >
-        <v-container style="height: 1000px;">
-            <Expenses/>            
-        </v-container>
+      <v-container style="height: 1000px;">
+        <Expenses/>            
+      </v-container>
     </v-sheet>
   </v-card>
 </template>
@@ -59,24 +59,21 @@ import AddExpense from './AddExpense'
 import { eventBus } from '../main'
 
 export default {
-    components: {
-        Expenses,
-        AddExpense
+  components: {
+    Expenses,
+    AddExpense
+  },
+  props: {
+    userName: String,
+    token: String
+  },
+  data: () => ({
+    drawer: false,
+  }),
+  methods: {
+    logout() {
+      eventBus.$emit('logout')
     },
-    props: {
-        userName: String,
-        token: String
-    },
-    data: () => ({
-      drawer: false,
-    }),
-    methods: {
-        addExpense() {
-
-        },
-        logout() {
-            eventBus.$emit('logout')
-        },
-    }
   }
+}
 </script>
