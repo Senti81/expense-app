@@ -1,7 +1,20 @@
 <template>
-    <div>
-        <b-table striped hover :items="items"></b-table>
-    </div>
+  <v-simple-table class="expenseTable">
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="text-left">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in expenses" :key="item.created_at">
+          <td>{{ item.Name }}</td>
+          <td>{{ item.amount }} €</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
 </template>
 
 <script>
@@ -11,7 +24,7 @@ import { eventBus } from '../main'
 export default {
 	data() {
 		return {
-			items: [],
+			expenses: [],
 			show: true
 		}
 	},
@@ -24,7 +37,7 @@ export default {
 					const response = await axios.get('api/expenses', {
 						headers: { 'Authorization': tokenFromStorage}
 					})
-					this.items = response.data
+					this.expenses = response.data
 				} catch (error) {
 					localStorage.clear();
 				}
@@ -39,3 +52,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	.expenseTable {
+		margin-top: 5em;
+	}
+</style>

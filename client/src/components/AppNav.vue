@@ -46,7 +46,7 @@
       class="overflow-y-auto"
       max-height="800px"
     >
-      <v-container style="height: 1000px;">
+      <v-container style="height: 1000px; margin-top=60px;">
         <Expenses/>            
       </v-container>
     </v-sheet>
