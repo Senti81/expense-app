@@ -5,12 +5,14 @@
         <tr>
           <th class="text-left">Name</th>
           <th class="text-left">Amount</th>
+          <th class="text-left">Date</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in expenses" :key="item.created_at">
-          <td>{{ item.Name }}</td>
+          <td>{{ item.name }}</td>
           <td>{{ item.amount }} €</td>
+          <td>{{ moment(item.created_at).format('DD.MM.YYYY HH:mm:ss') }}</td>
         </tr>
       </tbody>
     </template>
