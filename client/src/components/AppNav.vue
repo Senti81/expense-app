@@ -6,7 +6,7 @@
       dark
     >
     <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title>Expense App 💲</v-toolbar-title>
+      <v-toolbar-title>{{moment().format('MMMM YYYY')}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <AddExpense :token="token"/>
     </v-app-bar>
@@ -47,7 +47,7 @@
       max-height="800px"
     >
       <v-container style="height: 1000px; margin-top=60px;">
-        <Expenses/>            
+        <Expenses :userName="userName"/>            
       </v-container>
     </v-sheet>
   </v-card>

@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
 import moment from 'moment'
 
+moment.locale('de')
 Vue.config.productionTip = false
 Vue.prototype.moment = moment
 

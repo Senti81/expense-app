@@ -15,6 +15,24 @@
           <td class="text-right">{{ item.amount }} €</td>
         </tr>
       </tbody>
+			<tbody>
+        <tr>
+          <th class="text-left">{{userName}}</th>
+          <th class="text-left"></th>
+          <th class="text-right">
+						<strong> {{calculateSumForUser}} € </strong>	
+					</th>
+        </tr>
+      </tbody>
+			<tbody>
+        <tr>
+          <th class="text-left">Total</th>
+          <th class="text-left"></th>
+          <th class="text-right">
+						<strong> {{calculateTotalSum}} € </strong>	
+					</th>
+        </tr>
+      </tbody>
     </template>
   </v-simple-table>
 </template>
@@ -24,10 +42,21 @@ import axios from 'axios';
 import { eventBus } from '../main'
 
 export default {
+	props: {
+		userName: String
+	},
 	data() {
 		return {
 			expenses: [],
-			show: true
+			filtered: []
+		}
+	},
+	computed: {
+		calculateTotalSum() {
+			return this.expenses.reduce((acc, cur) => acc + parseFloat(cur.amount), 0).toFixed(2)
+		},
+		calculateSumForUser() {
+			return this.expenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
 		}
 	},
 	methods: {
@@ -35,7 +64,6 @@ export default {
 			const tokenFromStorage = localStorage.getItem('Authorization')
 			if(tokenFromStorage) {
 				try {
-					this.show = false;
 					const response = await axios.get('api/expenses', {
 						headers: { 'Authorization': tokenFromStorage}
 					})
