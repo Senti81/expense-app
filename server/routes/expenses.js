@@ -10,6 +10,18 @@ router.get('/', verify, async (req, res) => {
     res.json(allExpenses);
 });
 
+router.get('/current', verify, async (req, res) => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth()+1;
+    const allExpenses = await knex('expenses')
+        .join('users', 'user_id', '=', 'users.id')
+        .select('users.name as name', 'amount', 'expenses.created_at')
+        .whereRaw('Month(expenses.created_at) = ?', currentMonth)
+        .whereRaw('Year(expenses.created_at) = ?', currentYear)
+        .orderBy('created_at', 'desc');
+    res.json(allExpenses);
+});
+
 router.get('/:id', verify, async (req, res, next) => {
     const expenseById = await getById(req.params.id).first();
     expenseById ? res.json(expenseById) : next();

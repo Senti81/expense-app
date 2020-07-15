@@ -64,7 +64,7 @@ export default {
 			const tokenFromStorage = localStorage.getItem('Authorization')
 			if(tokenFromStorage) {
 				try {
-					const response = await axios.get('api/expenses', {
+					const response = await axios.get('api/expenses/current', {
 						headers: { 'Authorization': tokenFromStorage}
 					})
 					this.expenses = response.data
