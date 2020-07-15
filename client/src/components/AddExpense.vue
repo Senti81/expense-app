@@ -16,7 +16,8 @@
 						label="New Expense"
 						type="number"
 						autofocus
-						required>
+						required
+						@keypress.enter="addExpense">
 					</v-text-field>
         </v-container>
         <v-card-actions>

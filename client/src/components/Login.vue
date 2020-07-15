@@ -27,6 +27,7 @@
 				required
 				@input="$v.password.$touch()"
 				@blur="$v.password.$touch()"
+				@keypress.enter="submit"
 			></v-text-field>
 			<v-btn :disabled="disabled" class="mr-4" @click="submit" color="success">submit</v-btn>
 		</v-form>
