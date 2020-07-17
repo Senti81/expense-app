@@ -1,37 +1,49 @@
 <template>
-	<v-container class="mx-auto" max-width="100px">
-		<h2>Login</h2>
-		<v-form>
-			<v-alert 
-				v-if="errorMessage"
-				border="right"
-				colored-border
-				type="error"
-				elevation="2"
-				>
-				{{errorMessage}}
-			</v-alert>
-			<v-text-field
-				v-model="email"
-				:error-messages="emailErrors"
-				label="E-mail"
-				required
-				@input="$v.email.$touch()"
-				@blur="$v.email.$touch()"
-			></v-text-field>
-			<v-text-field
-				v-model="password"
-				:error-messages="passwordErrors"
-				label="Password"
-				type="password"
-				required
-				@input="$v.password.$touch()"
-				@blur="$v.password.$touch()"
-				@keypress.enter="submit"
-			></v-text-field>
-			<v-btn :disabled="disabled" class="mr-4" @click="submit" color="success">submit</v-btn>
-		</v-form>
-	</v-container>
+	<v-card
+		class="mx-auto pa-8 login green lighten-5"
+    max-width="384"
+		max-height="428"
+    outlined
+		:elevation="8"
+		>
+		<v-list-item three-line>
+			<v-list-item-content>
+				<v-list-item-title class="headline mb-8">Login</v-list-item-title>
+				<v-form>
+					<v-alert 
+						v-if="errorMessage"
+						border="right"
+						colored-border
+						type="error"
+						elevation="4"
+						>
+						{{errorMessage}}
+					</v-alert>
+					<v-text-field
+						v-model="email"
+						:error-messages="emailErrors"
+						label="E-mail"
+						required
+						@focus="errorMessage=''"
+						@input="$v.email.$touch()"
+						@blur="$v.email.$touch()"
+					></v-text-field>
+					<v-text-field
+						v-model="password"
+						label="Password"
+						type="password"
+						required
+						@input="$v.password.$touch()"
+						@blur="$v.password.$touch()"
+						@keypress.enter="submit"
+					></v-text-field>
+					<v-card-actions>
+							<v-btn block :disabled="disabled" @click="submit" color="primary" class="mt-4">Submit</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-list-item-content>
+		</v-list-item>
+	</v-card>
 </template>
 
 <script>
@@ -58,7 +70,7 @@ export default {
 	},
 	computed: {
 		disabled() {
-			return this.email.length == 0 || this.password.length == 0 || this.$v.$invalid
+			return this.email.length == 0 || this.password.length < 4 || this.$v.$invalid
 		},
 		emailErrors () {
 			const errors = []
@@ -66,13 +78,7 @@ export default {
 			!this.$v.email.email && errors.push('Must be valid e-mail')
 			!this.$v.email.required && errors.push('E-mail is required')
 			return errors
-		},
-		passwordErrors () {
-			const errors = []
-			if (!this.$v.password.$dirty) return errors
-			!this.$v.password.required && errors.push('Password is required.')
-			return errors
-		},
+		}
 	},
 	methods: {
 		async submit () {
@@ -101,3 +107,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	.login {
+		margin: 150px 0px;
+	}
+</style>
