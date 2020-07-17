@@ -1,21 +1,27 @@
 <template>
 	<v-card
 		class="mx-auto pa-8 login green lighten-5"
-    max-width="384"
-		max-height="428"
-    outlined
+		max-width="496"
+		max-height="786"
+		outlined
 		:elevation="8"
 		>
+		<v-img
+      class="white--text align-end ma-3"
+      height="80%"
+      src="@/assets/cologne.jpg"
+    >
+			<v-card-title>Expense App</v-card-title>
+    </v-img>
 		<v-list-item three-line>
 			<v-list-item-content>
-				<v-list-item-title class="headline mb-8">Login</v-list-item-title>
 				<v-form>
 					<v-alert 
 						v-if="errorMessage"
 						border="right"
 						colored-border
 						type="error"
-						elevation="4"
+						elevation="0"
 						>
 						{{errorMessage}}
 					</v-alert>
@@ -89,6 +95,6 @@ export default {
 
 <style scoped>
 	.login {
-		margin: 150px 0px;
+		margin: 8% 0px;
 	}
 </style>
