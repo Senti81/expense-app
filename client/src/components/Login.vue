@@ -38,7 +38,14 @@
 						@keypress.enter="submit"
 					></v-text-field>
 					<v-card-actions>
-							<v-btn block :disabled="disabled" @click="submit" color="primary" class="mt-4">Submit</v-btn>
+						<v-btn 
+							block
+							:disabled="disabled"
+							@click="submit"
+							color="primary"
+							class="mt-4">
+							Submit
+						</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-list-item-content>
@@ -58,7 +65,6 @@ export default {
 
 	validations: {
 		email: { required, email },
-		password: { required },
 	},
 	data() {
 		return {
