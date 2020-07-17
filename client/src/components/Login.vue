@@ -21,20 +21,15 @@
 					</v-alert>
 					<v-text-field
 						v-model="email"
-						:error-messages="emailErrors"
 						label="E-mail"
 						required
 						@focus="errorMessage=''"
-						@input="$v.email.$touch()"
-						@blur="$v.email.$touch()"
 					></v-text-field>
 					<v-text-field
 						v-model="password"
 						label="Password"
 						type="password"
 						required
-						@input="$v.password.$touch()"
-						@blur="$v.password.$touch()"
 						@keypress.enter="submit"
 					></v-text-field>
 					<v-card-actions>
@@ -54,18 +49,10 @@
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
-
 import axios from 'axios';
 import {eventBus} from "../main";
 
 export default {
-	mixins: [validationMixin],
-
-	validations: {
-		email: { required, email },
-	},
 	data() {
 		return {
 			email: '',
@@ -76,26 +63,17 @@ export default {
 	},
 	computed: {
 		disabled() {
-			return this.email.length == 0 || this.password.length < 4 || this.$v.$invalid
+			return this.email.length == 0 || this.password.length < 4
 		},
-		emailErrors () {
-			const errors = []
-			if (!this.$v.email.$dirty) return errors
-			!this.$v.email.email && errors.push('Must be valid e-mail')
-			!this.$v.email.required && errors.push('E-mail is required')
-			return errors
-		}
 	},
 	methods: {
 		async submit () {
-			this.$v.$touch()
 			const result = await axios.post('/api/auth', {
-				email: this.email,
+				email: this.email.trim(),
 				password: this.password
 			});
 			const response = result.data;
 			if(!response.success) {
-				this.$v.$reset()
 				this.errorMessage = response.message
 				this.email = ''
 				this.password = ''
@@ -104,12 +82,7 @@ export default {
 				this.show = false;
 				eventBus.$emit('login', response.token);
 			}
-		},
-		clear () {
-			this.$v.$reset()
-			this.email = ''
-			this.password = ''
-		},
+		}
 	}
 }
 </script>
