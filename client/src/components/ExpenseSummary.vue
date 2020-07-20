@@ -1,11 +1,11 @@
 <template>
-  <v-simple-table>
+  <v-simple-table dense >
     <tbody>
       <tr>
         <th class="text-left">{{userName}}</th>
         <th class="text-left"></th>
         <th class="text-right">
-          <strong> calculateSumForUser € </strong>	
+          <strong>{{calculateSumForUser}} €</strong>	
         </th>
       </tr>
     </tbody>
@@ -14,7 +14,7 @@
         <th class="text-left">Total</th>
         <th class="text-left"></th>
         <th class="text-right">
-          <strong> calculateTotalSum € </strong>	
+          <strong>{{calculateTotalSum}} €</strong>	
         </th>
       </tr>
     </tbody>
@@ -23,11 +23,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      userName: 'dummy'
-    }
-  }
-  
+  props: {
+    userName: String,
+    calculateTotalSum: String,
+    calculateSumForUser: String
+  }  
 }
 </script>

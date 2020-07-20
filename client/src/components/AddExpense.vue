@@ -1,12 +1,7 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="290">
-      <template v-slot:activator="{ on, attrs }">
-        <!-- <v-btn icon
-					v-bind="attrs"
-					v-on="on">
-					<v-icon>mdi-plus</v-icon>
-        </v-btn> -->
+      <template v-slot:activator="{ on }">
 				<v-btn
 					absolute
 					fixed
@@ -16,7 +11,6 @@
 					right
 					color="green"
 					class="mb-10"
-					v-bind="attrs"
 					v-on="on"
 				>
 					<v-icon>mdi-plus</v-icon>

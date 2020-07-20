@@ -26,39 +26,37 @@
             <v-list-item-title>Logout {{ userName }}</v-list-item-title>
           </v-list-item>
         </v-list> 
-        <v-list>
-          <v-list-item>
-            <v-btn icon>
-              <v-icon>mdi-format-list-bulleted </v-icon>
-            </v-btn>
-            <v-list-item-title @click="() => {}">Dummy</v-list-item-title>
-          </v-list-item>
-        </v-list> 
       </v-menu>
     </v-app-bar>
     <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
-      max-height="600"
+      max-height="100%"
     >  
-      <Expenses :token="token" :userName="userName"/>            
+      <ExpensesList :expenses="expenses"/>            
     </v-sheet>
-    <v-sheet max-height="100">
-      <ExpenseSummary/>
+    <v-sheet max-height="100px">
+      <ExpenseSummary
+        :userName="userName"
+        :calculateTotalSum="calculateTotalSum"
+        :calculateSumForUser="calculateSumForUser"
+      />
     </v-sheet>
     <AddExpense :token="token"/>
   </v-card>
 </template>
 
 <script>
-import Expenses from './Expenses'
+import ExpensesList from './ExpensesList'
 import AddExpense from './AddExpense'
 import ExpenseSummary from './ExpenseSummary'
+
+import axios from 'axios'
 import { eventBus } from '../main'
 
 export default {
   components: {
-    Expenses,
+    ExpensesList,
     AddExpense,
     ExpenseSummary
   },
@@ -66,10 +64,42 @@ export default {
     userName: String,
     token: String
   },
+  data() {
+    return {
+      expenses: []
+    }
+  },
   methods: {
+    async loadExpenses() {
+			const tokenFromStorage = localStorage.getItem('Authorization')
+			if(tokenFromStorage) {
+				try {
+					const response = await axios.get('api/expenses/current', {
+						headers: { 'Authorization': tokenFromStorage}
+					})
+					this.expenses = response.data
+				} catch (error) {
+					localStorage.clear();
+				}
+			}
+		},
     logout() {
       eventBus.$emit('logout')
     },
-  }
+  },
+  computed: {
+		calculateTotalSum() {
+			return this.expenses.reduce((acc, cur) => acc + parseFloat(cur.amount), 0).toFixed(2)
+		},
+		calculateSumForUser() {
+			return this.expenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
+		}
+  },
+	created() {
+		eventBus.$on('update expenses', () => this.loadExpenses())
+	},
+  mounted() {
+		this.loadExpenses()            
+	},
 }
 </script>

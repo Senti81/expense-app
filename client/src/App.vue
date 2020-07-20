@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <AppNav v-if="loggedIn"
+      <MainComponent v-if="loggedIn"
         :userName="userName"
         :token="token"
       />
@@ -14,7 +14,7 @@
 
 <script>
   import Login from './components/Login'
-  import AppNav from './components/AppNav'
+  import MainComponent from './components/MainComponent'
 
   import axios from 'axios'
   import { eventBus } from './main'
@@ -22,7 +22,7 @@
   export default {
     name: 'App',
     components: {
-      AppNav,
+      MainComponent,
       Login,
     },
     data() {
