@@ -41,7 +41,12 @@
       class="overflow-y-auto"
       max-height="100%"
     >  
-      <ExpensesList :expenses="expenses"/>            
+      <ExpensesList
+        :userName="userName"
+        :role="role"
+        :token="token"
+        :expenses="expenses"
+      />            
     </v-sheet>
     <AddExpense :token="token"/>
   </v-card>
@@ -63,6 +68,7 @@ export default {
   },
   props: {
     userName: String,
+    role: String,
     token: String
   },
   data() {

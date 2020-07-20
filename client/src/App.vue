@@ -3,6 +3,7 @@
     <v-main>
       <MainComponent v-if="loggedIn"
         :userName="userName"
+        :role="role"
         :token="token"
       />
       <div class="container">
@@ -29,6 +30,7 @@
       return {
         loggedIn: false,
         userName: '',
+        role: '',
         token: ''
       }
     },
@@ -53,6 +55,7 @@
           headers: { 'Authorization': token }
         })
         this.userName = userDetails.data.name
+        this.role = userDetails.data.role
       })
       eventBus.$on('logout', () => {
         localStorage.removeItem('Authorization')

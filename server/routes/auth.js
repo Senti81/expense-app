@@ -14,7 +14,10 @@ router.get('/', verify, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const user = await knex('users').where('email', req.body.email).first();
+    const user = await knex('users')
+        .join('roles', 'role_id', '=', 'roles.id')
+        .select('users.id as userId', 'roles.name as role', 'users.name as name', 'email', 'password')
+        .where('email', req.body.email).first();
     if (!user)
         return res.send(errorMessage);
 
@@ -24,10 +27,10 @@ router.post('/', async (req, res) => {
 
     const token = jwt.sign(
         {
-            id: user.id,
+            id: user.userId,
             name: user.name,
             email: user.email,
-            role_id: user.role_id
+            role: user.role
         },
         process.env.JWT_SECRET,
         {

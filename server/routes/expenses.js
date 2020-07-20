@@ -41,18 +41,14 @@ router.post('/', verify, async (req, res) => {
 });
 
 router.put('/:id', verify, async (req, res, next) => {
-    
-    // PUT is only allowed, if role is ADMIN
-    if (req.user.role_id === 2)
+    if (req.user.role !== 'ADMIN')
         return res.sendStatus(403);
     const updatedExpense = await getById(req.params.id).update(req.body);
     updatedExpense === 1 ? res.json(await getById(req.params.id).first()) : next();
 });
 
 router.delete('/:id', verify, async (req, res, next) => {
-
-    // PUT is only allowed, if role is ADMIN
-    if (req.user.role_id === 2)
+    if (req.user.role !== 'ADMIN')
         return res.sendStatus(403);
     const deletedExpense = await getById(req.params.id).del();
     deletedExpense === 1 ? res.json(deletedExpense) : next();
