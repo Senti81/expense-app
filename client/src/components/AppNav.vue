@@ -1,75 +1,71 @@
 <template>
-  <v-card  class="overflow-hidden">
-    <v-app-bar
+  <v-card class="overflow-hidden">
+    <v-app-bar 
       absolute
-      color="green darken-2"
       dark
-    >
-    <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      elevate-on-scroll
+      scroll-target="#scrolling-techniques-7"
+      color="green darken-2">
       <v-toolbar-title>{{moment().format('MMMM YYYY')}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <AddExpense :token="token"/>
-    </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          active-class="deep-purple--text text--accent-4"
+      <v-menu right top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          v-bind="attrs"
+          v-on="on"
         >
-        <h3>{{userName}}</h3>
-        <hr>
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+        <v-list>
+          <v-list-item @click="logout">
+            <v-btn icon>
               <v-icon>mdi-logout</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title @click="logout">Logout</v-list-item-title>
+            </v-btn>
+            <v-list-item-title>Logout {{ userName }}</v-list-item-title>
           </v-list-item>
-
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
+        </v-list> 
+        <v-list>
+          <v-list-item>
+            <v-btn icon>
+              <v-icon>mdi-format-list-bulleted </v-icon>
+            </v-btn>
+            <v-list-item-title @click="() => {}">Dummy</v-list-item-title>
+          </v-list-item>
+        </v-list> 
+      </v-menu>
+    </v-app-bar>
     <v-sheet
-      id="scrolling-techniques"
+      id="scrolling-techniques-7"
       class="overflow-y-auto"
-      max-height="800px"
-    >
-      <v-container style="height: 1000px; margin-top=60px;">
-        <Expenses :userName="userName"/>            
-      </v-container>
+      max-height="600"
+    >  
+      <Expenses :token="token" :userName="userName"/>            
     </v-sheet>
+    <v-sheet max-height="100">
+      <ExpenseSummary/>
+    </v-sheet>
+    <AddExpense :token="token"/>
   </v-card>
 </template>
 
 <script>
 import Expenses from './Expenses'
 import AddExpense from './AddExpense'
+import ExpenseSummary from './ExpenseSummary'
 import { eventBus } from '../main'
 
 export default {
   components: {
     Expenses,
-    AddExpense
+    AddExpense,
+    ExpenseSummary
   },
   props: {
     userName: String,
     token: String
   },
-  data: () => ({
-    drawer: false,
-  }),
   methods: {
     logout() {
       eventBus.$emit('logout')

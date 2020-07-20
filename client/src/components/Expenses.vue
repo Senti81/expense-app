@@ -43,7 +43,8 @@ import { eventBus } from '../main'
 
 export default {
 	props: {
-		userName: String
+		userName: String,
+		token: String
 	},
 	data() {
 		return {
