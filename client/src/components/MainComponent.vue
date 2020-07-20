@@ -1,5 +1,6 @@
 <template>
-  <v-card class="overflow-hidden">
+  <v-card
+    class="overflow-hidden">
     <v-app-bar 
       absolute
       dark
@@ -28,19 +29,19 @@
         </v-list> 
       </v-menu>
     </v-app-bar>
+    <v-sheet max-height="150px">
+      <ExpenseSummary
+        :userName="userName"
+        :calculateTotalSum="calculateTotalSum"
+        :calculateSumForUser="calculateSumForUser"
+      />
+    </v-sheet>
     <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
       max-height="100%"
     >  
       <ExpensesList :expenses="expenses"/>            
-    </v-sheet>
-    <v-sheet max-height="100px">
-      <ExpenseSummary
-        :userName="userName"
-        :calculateTotalSum="calculateTotalSum"
-        :calculateSumForUser="calculateSumForUser"
-      />
     </v-sheet>
     <AddExpense :token="token"/>
   </v-card>
