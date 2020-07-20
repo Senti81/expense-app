@@ -5,7 +5,8 @@ const verify = require('../middlewares/verifyToken');
 router.get('/', verify, async (req, res) => {
     const allExpenses = await knex('expenses')
         .join('users', 'user_id', '=', 'users.id')
-        .select('users.name as name', 'amount', 'expenses.created_at')
+        .select('expenses.id as id', 'users.name as name', 'amount', 'expenses.created_at')
+        .orderBy('expenses.created_at', 'asc')
     res.json(allExpenses);
 });
 
@@ -14,9 +15,10 @@ router.get('/current', verify, async (req, res) => {
     const currentMonth = new Date().getMonth()+1;
     const allExpenses = await knex('expenses')
         .join('users', 'user_id', '=', 'users.id')
-        .select('users.name as name', 'amount', 'expenses.created_at')
+        .select('expenses.id as id', 'users.name as name', 'amount', 'expenses.created_at')
         .whereRaw('Month(expenses.created_at) = ?', currentMonth)
         .whereRaw('Year(expenses.created_at) = ?', currentYear)
+        .orderBy('expenses.created_at', 'asc')
     res.json(allExpenses);
 });
 
