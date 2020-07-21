@@ -40,11 +40,7 @@
 
 <script>
 import axios from 'axios'
-import { eventBus } from '../main'
 export default {
-	props: {
-			token: String
-	},
 	data () {
 		return {
 			dialog: false,
@@ -53,15 +49,13 @@ export default {
 	},
 	methods: {
 		async addExpense() {
-			const requestBody = {
-				amount: this.amount
-			}
-			const headers = {
-				headers: { 'Authorization': this.token }
-			}
 			try {
-				await axios.post('api/expenses', requestBody, headers)
-				eventBus.$emit('update expenses')
+				await axios.post('api/expenses', { amount: this.amount }, {
+					headers: { 
+						'Authorization': this.$store.getters.getToken 
+					}
+				})
+				this.$store.dispatch('updateExpenses')
 				this.dialog = false
 			} catch (error) {
 				console.error(error)

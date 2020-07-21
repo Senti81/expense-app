@@ -19,16 +19,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in expenses" :key="item.id">
+          <tr v-for="item in getExpenseListForCurrentMonth" :key="item.id">
             <td class="text-left">
               <v-icon
-                v-if="role === 'ADMIN'"
+                v-if="getUserDetails.role === 'ADMIN'"
                 small
                 @click="deleteExpense(item.id)">
                 mdi-delete
               </v-icon>
               <v-icon
-                v-if="item.name === userName || role === 'ADMIN'"
+                v-if="item.name === getUserDetails.name || getUserDetails.role === 'ADMIN'"
                 small
                 @click="updateExpense(item.id)">
                 mdi-file-edit
@@ -46,22 +46,28 @@
 
 <script>
 import axios from 'axios'
-import { eventBus } from '../main'
+import moment from 'moment'
 
 export default {
-	props: {
-    expenses: Array,
-    role: String,
-    userName: String,
-    token: String
+  computed: {
+    getUserDetails() {
+      return this.$store.getters.getUserDetails
+    },
+    getExpenseListForCurrentMonth() {
+      const currentYear = new Date().getFullYear()
+      const currentMonth = new Date().getMonth()+1
+      return this.$store.getters.getExpenses.filter( function(expense) {
+        return moment(expense.created_at).format('Y') == currentYear && moment(expense.created_at).format('M') == currentMonth
+      })
+    }
   },
   methods: {
     async deleteExpense(id) {
       try {
         await axios.delete(`api/expenses/${id}`, {
-          headers: { 'Authorization': this.token}
+          headers: { 'Authorization': this.$store.getters.getToken}
         })
-        eventBus.$emit('update expenses')        
+        this.$store.dispatch('updateExpenses')        
       } catch (error) {
         console.log(error)
       }

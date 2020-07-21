@@ -26,7 +26,7 @@
             <v-btn icon>
               <v-icon>mdi-logout</v-icon>
             </v-btn>
-            <v-list-item-title>Logout {{ userName }}</v-list-item-title>
+            <v-list-item-title>Logout {{ this.$store.getters.getUserDetails.name }}</v-list-item-title>
           </v-list-item>
         </v-list> 
       </v-menu>
@@ -37,22 +37,17 @@
       <v-row>
         <v-col>
           <v-sheet max-height="150px">
-            <ExpenseSummary
-              :currentMonth="currentMonth"
-              :userName="userName"
-              :calculateTotalSum="calculateTotalSum"
-              :calculateSumForUser="calculateSumForUser"
-            />          
+            <ExpenseSummary/>          
           </v-sheet>
         </v-col>
         <v-col>
-          <v-sheet max-height="150px">
+          <!-- <v-sheet max-height="150px">
             <ExpenseSummary              
               :userName="userName"
               :calculateTotalSumForPreviousMonth="calculateTotalSumForPreviousMonth"
               :calculateSumForUserForPreviousMonth="calculateSumForUserForPreviousMonth"
             />       
-          </v-sheet>
+          </v-sheet> -->
         </v-col>
       </v-row>
     </v-container>
@@ -63,14 +58,9 @@
       class="overflow-y-auto"
       max-height="100%"
     >  
-      <ExpensesList
-        :userName="userName"
-        :role="role"
-        :token="token"
-        :expenses="expenses"
-      />            
+      <ExpensesList/>            
     </v-sheet>
-    <AddExpense :token="token"/>
+    <AddExpense/>
   </v-card>
 </template>
 
@@ -80,7 +70,6 @@ import AddExpense from './AddExpense'
 import ExpenseSummary from './ExpenseSummary'
 
 import axios from 'axios'
-import { eventBus } from '../main'
 import moment from 'moment'
 
 export default {
@@ -88,11 +77,6 @@ export default {
     ExpensesList,
     AddExpense,
     ExpenseSummary
-  },
-  props: {
-    userName: String,
-    role: String,
-    token: String
   },
   data() {
     return {
@@ -106,42 +90,23 @@ export default {
 			const tokenFromStorage = localStorage.getItem('Authorization')
 			if(tokenFromStorage) {
 				try {
-					const response = await axios.get('api/expenses/current', {
+					const response = await axios.get('api/expenses/', {
 						headers: { 'Authorization': tokenFromStorage}
 					})
-					this.expenses = response.data
-					const previousExpensesResponse = await axios.get('api/expenses/last', {
-						headers: { 'Authorization': tokenFromStorage}
-					})
-					this.previousExpenses = previousExpensesResponse.data
+          this.expenses = response.data
+          this.$store.commit('setExpenses', response.data)					
 				} catch (error) {
 					localStorage.clear();
 				}
 			}
 		},
     logout() {
-      eventBus.$emit('logout')
+      this.$store.commit('logout')
     },
   },
-  computed: {
-		calculateTotalSum() {
-			return this.expenses.reduce((acc, cur) => acc + parseFloat(cur.amount), 0).toFixed(2)
-		},
-		calculateSumForUser() {
-			return this.expenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
-		},
-		calculateTotalSumForPreviousMonth() {
-			return this.previousExpenses.reduce((acc, cur) => acc + parseFloat(cur.amount), 0).toFixed(2)
-		},
-		calculateSumForUserForPreviousMonth() {
-			return this.previousExpenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
-		}
-  },
-	created() {
-		eventBus.$on('update expenses', () => this.loadExpenses())
-	},
   mounted() {
-		this.loadExpenses()            
+    this.$store.dispatch('updateExpenses')
+    this.$store.dispatch('loadExpensesFromLastMonth')
 	},
 }
 </script>

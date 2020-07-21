@@ -56,14 +56,14 @@
 
 <script>
 import axios from 'axios';
-import {eventBus} from "../main";
+// import {eventBus} from "../main";
 
 export default {
 	data() {
 		return {
 			email: '',
 			password: '',
-			show: true,
+			// show: true,
 			errorMessage: ''
 		}
 	},
@@ -85,8 +85,12 @@ export default {
 				this.password = ''
 			} else {
 				localStorage.setItem('Authorization', response.token)
-				this.show = false;
-				eventBus.$emit('login', response.token);
+				this.$store.dispatch('validateToken', response.token)
+				// this.$store.commit('setToken', response.token)
+				// this.show = false;
+				// eventBus.$emit('login', response.token);
+				// this.$store.commit('login')
+				// this.$store.dispatch('setToken', response.token)
 			}
 		}
 	}
