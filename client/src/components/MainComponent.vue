@@ -1,6 +1,8 @@
 <template>
   <v-card
     class="overflow-hidden">
+
+    <!-- NavigationBar -->
     <v-app-bar 
       absolute
       dark
@@ -29,13 +31,33 @@
         </v-list> 
       </v-menu>
     </v-app-bar>
-    <v-sheet max-height="150px">
-      <ExpenseSummary
-        :userName="userName"
-        :calculateTotalSum="calculateTotalSum"
-        :calculateSumForUser="calculateSumForUser"
-      />
-    </v-sheet>
+
+    <!-- ExpenseSummary -->
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-sheet max-height="150px">
+            <ExpenseSummary
+              :currentMonth="currentMonth"
+              :userName="userName"
+              :calculateTotalSum="calculateTotalSum"
+              :calculateSumForUser="calculateSumForUser"
+            />          
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet max-height="150px">
+            <ExpenseSummary              
+              :userName="userName"
+              :calculateTotalSumForPreviousMonth="calculateTotalSumForPreviousMonth"
+              :calculateSumForUserForPreviousMonth="calculateSumForUserForPreviousMonth"
+            />       
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- ExpenseList -->
     <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
@@ -59,6 +81,7 @@ import ExpenseSummary from './ExpenseSummary'
 
 import axios from 'axios'
 import { eventBus } from '../main'
+import moment from 'moment'
 
 export default {
   components: {
@@ -73,7 +96,9 @@ export default {
   },
   data() {
     return {
-      expenses: []
+      currentMonth: moment().format('MMMM YYYY'),
+      expenses: [],
+      previousExpenses: []
     }
   },
   methods: {
@@ -85,6 +110,10 @@ export default {
 						headers: { 'Authorization': tokenFromStorage}
 					})
 					this.expenses = response.data
+					const previousExpensesResponse = await axios.get('api/expenses/last', {
+						headers: { 'Authorization': tokenFromStorage}
+					})
+					this.previousExpenses = previousExpensesResponse.data
 				} catch (error) {
 					localStorage.clear();
 				}
@@ -100,6 +129,12 @@ export default {
 		},
 		calculateSumForUser() {
 			return this.expenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
+		},
+		calculateTotalSumForPreviousMonth() {
+			return this.previousExpenses.reduce((acc, cur) => acc + parseFloat(cur.amount), 0).toFixed(2)
+		},
+		calculateSumForUserForPreviousMonth() {
+			return this.previousExpenses.reduce((acc, cur) => cur.name === this.userName ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
 		}
   },
 	created() {
