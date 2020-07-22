@@ -6,13 +6,13 @@ exports.seed = function(knex) {
         {
           name: 'Admin',
           email: 'admin@live.de',
-          password: '$2y$10$EWjm33KD2bTfpsM1qxQc9eqmveyyu1Jbk9LLz7RB8s5vzT9vNVWay',
+          password: '$2y$10$SaR8xEQF9Fe0.atiFa6ZbOMNxR.aq//p1FcqAd4v.7ZOrWUx53Fha',
           role_id: 1        
         },
         {
           name: 'User',
           email: 'user@live.de',
-          password: '$2y$10$VlkhAXYYmKYvNJrYaUU.qOo98/PXpP/92U7V5VTZlrQnRSpK3TyFm',
+          password: '$2y$10$SaR8xEQF9Fe0.atiFa6ZbOMNxR.aq//p1FcqAd4v.7ZOrWUx53Fha',
           role_id: 2        
         }
       ]);
