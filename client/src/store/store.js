@@ -7,8 +7,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loggedIn: false,
-    token: '',
+    token: localStorage.getItem('Authorization'),
     userDetails: {},
     expensesCurrentMonth: [],
     expensesLastMonth: []
@@ -22,9 +21,6 @@ export const store = new Vuex.Store({
     },
     setUserDetails(state, payload) {
       state.userDetails = payload
-    },
-    login(state) {
-      state.loggedIn = true
     },
     logout(state) {
       state.loggedIn = false
@@ -43,11 +39,11 @@ export const store = new Vuex.Store({
         const userDetails = await axios.get('/api/auth', {
           headers: { 'Authorization': token }
         })
-        commit('login')
         commit('setToken', token)
         commit('setUserDetails', userDetails.data)        
       } catch (error) {
         console.error(error)
+        commit('logout')
         localStorage.removeItem('Authorization')
       }
     },

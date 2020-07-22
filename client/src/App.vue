@@ -1,10 +1,8 @@
 <template>
   <v-app>
     <v-main>
-      <MainComponent v-if="isLoggedIn"/>
-      <div class="container">
-        <Login v-if="!isLoggedIn"/>        
-      </div>
+      <MainComponent v-if="hasToken"/>
+      <Login v-else/>
     </v-main>
   </v-app>
 </template>
@@ -20,14 +18,14 @@
       Login,
     },
     computed: {
-      isLoggedIn() {
-        return this.$store.getters.isLoggedIn
+      hasToken() {
+        return this.$store.getters.getToken
       }
     },
     mounted() {
       const token = localStorage.getItem('Authorization')
       if(token) 
-        this.$store.dispatch('validateToken', token) 
+        this.$store.dispatch('validateToken', token)
     }
   }
 </script>
