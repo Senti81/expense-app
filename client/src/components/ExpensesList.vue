@@ -1,13 +1,13 @@
 <template>
   <v-card
     elevation="4"
-    class="mx-4 green lighten-4"
+    class="mx-4"
     >
     <v-simple-table
+      class="expenseTable mt-auto"
       fixed-header
       height="400px"
       dense
-      class="expenseTable mt-6"
       >
       <template v-slot:default>
         <thead>
@@ -46,7 +46,6 @@
 
 <script>
 import axios from 'axios'
-import moment from 'moment'
 
 export default {
   computed: {
@@ -54,11 +53,7 @@ export default {
       return this.$store.getters.getUserDetails
     },
     getExpenseListForCurrentMonth() {
-      const currentYear = new Date().getFullYear()
-      const currentMonth = new Date().getMonth()+1
-      return this.$store.getters.getExpenses.filter( function(expense) {
-        return moment(expense.created_at).format('Y') == currentYear && moment(expense.created_at).format('M') == currentMonth
-      })
+      return this.$store.getters.getExpensesCurrentMonth
     }
   },
   methods: {
@@ -73,6 +68,7 @@ export default {
       }
     },
     async updateExpense(id) {
+      // TODO
       console.log(`Update Expense ${id}`)
     }   
   }

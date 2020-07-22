@@ -13,11 +13,7 @@
       <v-spacer></v-spacer>
       <v-menu right top>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          icon
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-btn icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
@@ -36,18 +32,20 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-sheet max-height="150px">
-            <ExpenseSummary/>          
+          <v-sheet>
+            <ExpenseSummary 
+              :isCurrentMonth="false"
+              :expenseList="getExpenseListForLastMonth"
+            />          
           </v-sheet>
         </v-col>
         <v-col>
-          <!-- <v-sheet max-height="150px">
-            <ExpenseSummary              
-              :userName="userName"
-              :calculateTotalSumForPreviousMonth="calculateTotalSumForPreviousMonth"
-              :calculateSumForUserForPreviousMonth="calculateSumForUserForPreviousMonth"
-            />       
-          </v-sheet> -->
+          <v-sheet>
+            <ExpenseSummary 
+              isCurrentMonth
+              :expenseList="getExpenseListForThisMonth"
+            />          
+          </v-sheet>
         </v-col>
       </v-row>
     </v-container>
@@ -69,37 +67,21 @@ import ExpensesList from './ExpensesList'
 import AddExpense from './AddExpense'
 import ExpenseSummary from './ExpenseSummary'
 
-import axios from 'axios'
-import moment from 'moment'
-
 export default {
   components: {
     ExpensesList,
     AddExpense,
-    ExpenseSummary
+    ExpenseSummary,
   },
-  data() {
-    return {
-      currentMonth: moment().format('MMMM YYYY'),
-      expenses: [],
-      previousExpenses: []
-    }
+  computed: {
+    getExpenseListForThisMonth() {
+      return this.$store.getters.getExpensesCurrentMonth
+    },
+    getExpenseListForLastMonth() {
+      return this.$store.getters.getExpensesLastMonth
+    },
   },
-  methods: {
-    async loadExpenses() {
-			const tokenFromStorage = localStorage.getItem('Authorization')
-			if(tokenFromStorage) {
-				try {
-					const response = await axios.get('api/expenses/', {
-						headers: { 'Authorization': tokenFromStorage}
-					})
-          this.expenses = response.data
-          this.$store.commit('setExpenses', response.data)					
-				} catch (error) {
-					localStorage.clear();
-				}
-			}
-		},
+  methods: {    
     logout() {
       this.$store.commit('logout')
     },

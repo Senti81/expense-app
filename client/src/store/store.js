@@ -79,7 +79,8 @@ export const store = new Vuex.Store({
 		},
   },
   getters: {
-    getExpenses: state => state.expensesCurrentMonth,
+    getExpensesCurrentMonth: state => state.expensesCurrentMonth,
+    getExpensesLastMonth: state => state.expensesLastMonth,
     isLoggedIn: state => state.loggedIn,
     getUserDetails: state => state.userDetails,
     getToken: state => state.token,
