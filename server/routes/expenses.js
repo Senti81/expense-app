@@ -57,8 +57,6 @@ router.post('/', verify, async (req, res) => {
 });
 
 router.put('/:id', verify, async (req, res, next) => {
-    if (req.user.role !== 'ADMIN')
-        return res.sendStatus(403);
     const updatedExpense = await getById(req.params.id).update(req.body);
     updatedExpense === 1 ? res.json(await getById(req.params.id).first()) : next();
 });
