@@ -1,18 +1,13 @@
 <template>
 	<v-card
-		class="mx-auto pa-8 login green lighten-5"
+		class="mx-auto mt-16 pa-6 green lighten-5"
 		max-width="496"
 		max-height="786"
 		outlined
 		:elevation="8"
 		>
-		<v-img
-      class="white--text align-end ma-3"
-      height="80%"
-      src="@/assets/cologne.jpg"
-    >
-			<v-card-title>Expense App</v-card-title>
-    </v-img>
+		<v-card-title>Expense App</v-card-title>
+		<v-card-subtitle>Lorem ipsum dolor sit amet.</v-card-subtitle>
 		<v-list-item three-line>
 			<v-list-item-content>
 				<v-form>

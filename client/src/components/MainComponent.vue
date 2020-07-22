@@ -9,7 +9,7 @@
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
       color="green darken-2">
-      <v-toolbar-title>{{moment().format('MMMM YYYY')}}</v-toolbar-title>
+      <v-toolbar-title>Hello {{this.$store.getters.getUserDetails.name}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu right top>
       <template v-slot:activator="{ on, attrs }">
@@ -56,7 +56,7 @@
       class="overflow-y-auto"
       max-height="100%"
     >  
-      <ExpensesList/>            
+      <ExpensesList/>
     </v-sheet>
     <AddExpense/>
   </v-card>

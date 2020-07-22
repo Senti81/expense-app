@@ -4,7 +4,7 @@
       dense 
       class="mt-12"
       :class="isCurrentMonth ? 'blue lighten-5' : 'red lighten-5'">
-    <div class="overline mx-auto text-center">{{ isCurrentMonth ? moment().format('MMMM YYYY') : moment().subtract(1, 'month').format('MMMM YYYY') }}</div>
+      <div class="overline mx-auto text-center">{{ isCurrentMonth ? moment().format('MMMM YYYY') : moment().subtract(1, 'month').format('MMMM YYYY') }}</div>
       <tbody>
         <tr>
           <th class="text-left"><small>{{ this.$store.getters.getUserDetails.name }}</small></th>

@@ -2,7 +2,9 @@
   <v-app>
     <v-main>
       <MainComponent v-if="hasToken"/>
-      <Login v-else/>
+      <div v-else class="container">
+        <Login/>
+      </div>
     </v-main>
   </v-app>
 </template>
