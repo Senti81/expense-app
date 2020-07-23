@@ -4,9 +4,9 @@
     class="mx-4"
     >
     <v-simple-table
-      class="expenseTable mt-auto"
+      class="my-2"
       fixed-header
-      height="400px"
+      height="100%"
       dense
       >
       <template v-slot:default>

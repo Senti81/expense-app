@@ -1,6 +1,8 @@
 <template>
   <v-card
-    class="overflow-hidden">
+    class="overflow-hidden"
+    min-height="100%"
+    >
 
     <!-- NavigationBar -->
     <v-app-bar 
@@ -9,7 +11,7 @@
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
       color="green darken-2">
-      <v-toolbar-title>Hello {{this.$store.getters.getUserDetails.name}}</v-toolbar-title>
+      <v-toolbar-title class="text-center">Hello {{this.$store.getters.getUserDetails.name}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu right top>
       <template v-slot:activator="{ on, attrs }">
@@ -54,7 +56,6 @@
     <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
-      max-height="100%"
     >  
       <ExpensesList/>
     </v-sheet>

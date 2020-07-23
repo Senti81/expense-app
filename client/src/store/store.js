@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     token: localStorage.getItem('Authorization'),
     userDetails: {},
     expensesCurrentMonth: [],
-    expensesLastMonth: []
+    expensesLastMonth: [],
+    contribution: 300
   },
   mutations: {
     updateExpensesList(state, payload) {
@@ -80,5 +81,6 @@ export const store = new Vuex.Store({
     isLoggedIn: state => state.loggedIn,
     getUserDetails: state => state.userDetails,
     getToken: state => state.token,
+    getContribution: state => state.contribution,
   }
 })

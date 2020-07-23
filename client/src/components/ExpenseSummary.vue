@@ -3,7 +3,7 @@
     <v-simple-table 
       dense 
       class="mt-12"
-      :class="isCurrentMonth ? 'blue lighten-5' : 'red lighten-5'">
+      :class="isCurrentMonth ? 'teal lighten-5' : 'indigo lighten-4'">
       <div class="overline mx-auto text-center">{{ isCurrentMonth ? moment().format('MMMM YYYY') : moment().subtract(1, 'month').format('MMMM YYYY') }}</div>
       <tbody>
         <tr>
@@ -42,7 +42,10 @@ export default {
         cur.name === this.$store.getters.getUserDetails.name ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
 		},
     calculateDifference() {
-      return (this.calculateTotalSum)/2 - (this.calculateSumForUser)
+      return (this.calculateTotalSum)/2 - (this.calculateSumForUser) + this.getContribution
+    },
+    getContribution() {
+      return this.$store.getters.getUserDetails.role === 'ADMIN' ? -this.$store.getters.getContribution : this.$store.getters.getContribution
     }
   }
 }
