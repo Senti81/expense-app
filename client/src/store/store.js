@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
+    loading: false,
     token: localStorage.getItem('Authorization'),
     userDetails: {},
     expensesCurrentMonth: [],
@@ -14,6 +15,9 @@ export const store = new Vuex.Store({
     contribution: 300
   },
   mutations: {
+    toggleLoading(state) {
+      state.loading = !state.loading
+    },
     updateExpensesList(state, payload) {
       state.expensesCurrentMonth = payload
     },
@@ -48,7 +52,8 @@ export const store = new Vuex.Store({
         localStorage.removeItem('Authorization')
       }
     },
-    async updateExpenses({commit}) {
+    async updateExpenses({commit}) {  
+      commit('toggleLoading')
 			const tokenFromStorage = localStorage.getItem('Authorization')
 			if(tokenFromStorage) {
 				try {
@@ -58,7 +63,9 @@ export const store = new Vuex.Store({
           commit('updateExpensesList', response.data)
 				} catch (error) {
 					localStorage.clear();
-				}
+				} finally {
+          commit('toggleLoading')
+        }
 			}
 		},
     async loadExpensesFromLastMonth({commit}) {
@@ -76,6 +83,7 @@ export const store = new Vuex.Store({
 		},
   },
   getters: {
+    isLoading: state => state.loading,
     getExpensesCurrentMonth: state => state.expensesCurrentMonth,
     getExpensesLastMonth: state => state.expensesLastMonth,
     isLoggedIn: state => state.loggedIn,

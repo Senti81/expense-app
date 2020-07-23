@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <MainComponent v-if="hasToken"/>
+      <MainComponent v-if="this.$store.getters.getToken"/>
       <div v-else class="container">
         <Login/>
       </div>
@@ -18,11 +18,6 @@
     components: {
       MainComponent,
       Login,
-    },
-    computed: {
-      hasToken() {
-        return this.$store.getters.getToken
-      }
     },
     mounted() {
       const token = localStorage.getItem('Authorization')

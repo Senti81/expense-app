@@ -3,6 +3,7 @@
     elevation="4"
     class="mx-4"
     >
+    <v-overlay v-show="this.$store.getters.isLoading">Loading...</v-overlay>
     <v-simple-table
       class="my-2"
       fixed-header

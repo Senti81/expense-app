@@ -6,8 +6,8 @@
 		outlined
 		:elevation="8"
 		>
+		<v-overlay v-show="this.$store.getters.isLoading">Loading...</v-overlay>
 		<v-card-title>Expense App</v-card-title>
-		<v-card-subtitle>Lorem ipsum dolor sit amet.</v-card-subtitle>
 		<v-list-item three-line>
 			<v-list-item-content>
 				<v-form>
@@ -67,6 +67,7 @@ export default {
 	},
 	methods: {
 		async submit () {
+			this.$store.commit('toggleLoading')
 			const result = await axios.post('/api/auth', {
 				email: this.email.trim(),
 				password: this.password
@@ -80,6 +81,7 @@ export default {
 				localStorage.setItem('Authorization', response.token)
 				this.$store.dispatch('validateToken', response.token)
 			}
+			this.$store.commit('toggleLoading')
 		}
 	}
 }
