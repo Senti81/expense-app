@@ -26,7 +26,7 @@ router.get('/last', verify, async (req, res) => {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     if (currentMonth === 0) {
-        currentMonth = 12
+        currentMonth = 11
         currentYear-= 1
     }
     const allExpenses = await knex('expenses')
