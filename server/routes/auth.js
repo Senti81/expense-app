@@ -6,7 +6,7 @@ const verify = require('../middlewares/verifyToken');
 
 const errorMessage = {
     success: false,
-    message: `Email or password is wrong`
+    message: `Email oder Passwort ist falsch`
 };
 
 router.get('/', verify, async (req, res) => {

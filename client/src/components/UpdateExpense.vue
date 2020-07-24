@@ -7,11 +7,11 @@
 				</v-icon>
       </template>
       <v-card>
-				<v-card-title class="headline">Update {{ id }}</v-card-title>
+				<v-card-title class="headline">Buchung bearbeiten</v-card-title>
         <v-container>
 					<v-text-field 
 						v-model="amount"
-						label="Update Expense"
+						label="Neuer Betrag"
 						type="number"
 						step="0.01"
 						autofocus
@@ -21,7 +21,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red darken-1" text @click="reset">Cancel</v-btn>
+          <v-btn color="red darken-1" text @click="reset">Abbrechen</v-btn>
           <v-btn color="green darken-1" text @click="update(id)">Ok</v-btn>
         </v-card-actions>
       </v-card>

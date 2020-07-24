@@ -6,7 +6,7 @@ const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const app = express();
 const moment = require('moment')
 
-logger.token('date', (req, res) => moment().format('YYYY-MM-DD HH:mm:ss'))
+logger.token('date', () => moment().format('YYYY-MM-DD HH:mm:ss'))
 logger.format('log', '[:date] \x1b[33m:method :url \x1b[32m:status \x1b[0m:response-time ms')
 app.use(logger('log'));
 app.use(express.json());

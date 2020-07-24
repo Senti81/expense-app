@@ -11,7 +11,7 @@
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
       color="green darken-2">
-      <v-toolbar-title class="text-center">Hello {{this.$store.getters.getUserDetails.name}}</v-toolbar-title>
+      <v-toolbar-title class="text-center">Hallo, {{this.$store.getters.getUserDetails.name}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu right top>
       <template v-slot:activator="{ on, attrs }">
@@ -24,7 +24,7 @@
             <v-btn icon>
               <v-icon>mdi-logout</v-icon>
             </v-btn>
-            <v-list-item-title>Logout {{ this.$store.getters.getUserDetails.name }}</v-list-item-title>
+            <v-list-item-title>{{ this.$store.getters.getUserDetails.name}} abmelden</v-list-item-title>
           </v-list-item>
         </v-list> 
       </v-menu>

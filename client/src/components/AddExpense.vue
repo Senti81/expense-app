@@ -17,11 +17,11 @@
 				</v-btn>
       </template>
       <v-card>
-				<v-card-title class="headline">Input</v-card-title>
+				<v-card-title class="headline">Neue Buchung</v-card-title>
         <v-container>
 					<v-text-field 
 						v-model="amount"
-						label="New Expense"
+						label="Betrag eingeben"
 						type="number"
 						autofocus
 						required
@@ -30,7 +30,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red darken-1" text @click="reset">Cancel</v-btn>
+          <v-btn color="red darken-1" text @click="reset">Abbrechen</v-btn>
           <v-btn color="green darken-1" text @click="addExpense">Ok</v-btn>
         </v-card-actions>
       </v-card>

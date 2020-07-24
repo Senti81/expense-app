@@ -15,8 +15,8 @@
           <tr>
             <th class="text-center"><v-icon>mdi-menu</v-icon></th>
             <th class="text-left">Name</th>
-            <th class="text-left">Date</th>
-            <th class="text-right">Amount</th>
+            <th class="text-left">Datum</th>
+            <th class="text-right">Betrag</th>
           </tr>
         </thead>
         <tbody>

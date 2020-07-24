@@ -7,7 +7,7 @@
 		:elevation="8"
 		>
 		<v-overlay v-show="this.$store.getters.isLoading">Loading...</v-overlay>
-		<v-card-title>Expense App</v-card-title>
+		<v-card-title>🏡 Haushalts App</v-card-title>
 		<v-list-item three-line>
 			<v-list-item-content>
 				<v-form>
@@ -28,7 +28,7 @@
 					></v-text-field>
 					<v-text-field
 						v-model="password"
-						label="Password"
+						label="Passwort"
 						type="password"
 						required
 						@keypress.enter="submit"
@@ -40,7 +40,7 @@
 							@click="submit"
 							color="primary"
 							class="mt-4">
-							Submit
+							Anmelden
 						</v-btn>
 					</v-card-actions>
 				</v-form>

@@ -4,14 +4,14 @@ exports.seed = function(knex) {
     .then(function () {
       return knex('users').insert([
         {
-          name: 'Admin',
-          email: 'admin@live.de',
+          name: 'Matz',
+          email: 'matz@app.de',
           password: '$2y$10$SaR8xEQF9Fe0.atiFa6ZbOMNxR.aq//p1FcqAd4v.7ZOrWUx53Fha',
           role_id: 1        
         },
         {
-          name: 'User',
-          email: 'user@live.de',
+          name: 'Yolli',
+          email: 'yolli@app.de',
           password: '$2y$10$SaR8xEQF9Fe0.atiFa6ZbOMNxR.aq//p1FcqAd4v.7ZOrWUx53Fha',
           role_id: 2        
         }

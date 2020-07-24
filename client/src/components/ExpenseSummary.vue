@@ -11,11 +11,11 @@
           <th class="text-right"><small>{{calculateSumForUser}} €</small></th>
         </tr>
         <tr>
-          <th class="text-left"><small>Total</small></th>
+          <th class="text-left"><small>Summe</small></th>
           <th class="text-right"><small>{{calculateTotalSum}} €</small></th>
         </tr>
         <tr>
-          <th class="text-left"><small>Difference</small></th>
+          <th class="text-left"><small>Differenz</small></th>
           <th class="text-right"
             :class="calculateDifference > 0 ? 'red--text' : 'green--text'">
             <small>{{ (Math.abs(calculateDifference)).toFixed(2) }} €</small>
