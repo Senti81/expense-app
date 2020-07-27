@@ -35,7 +35,7 @@ export default {
         await axios.delete(`api/expenses/${id}`, {
           headers: { 'Authorization': this.$store.getters.getToken}
         })
-        this.$store.dispatch('updateExpenses')        
+        this.$store.dispatch('refreshExpensesList')        
       } catch (error) {
         console.log(error)
       }

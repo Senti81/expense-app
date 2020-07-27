@@ -37,7 +37,7 @@
           <v-sheet>
             <ExpenseSummary 
               :isCurrentMonth="false"
-              :expenseList="getExpenseListForLastMonth"
+              :expenseList="getExpensesLastMonth"
             />          
           </v-sheet>
         </v-col>
@@ -45,7 +45,7 @@
           <v-sheet>
             <ExpenseSummary 
               isCurrentMonth
-              :expenseList="getExpenseListForThisMonth"
+              :expenseList="getExpensesCurrentMonth"
             />          
           </v-sheet>
         </v-col>
@@ -67,6 +67,7 @@
 import ExpensesList from './ExpensesList'
 import AddExpense from './AddExpense'
 import ExpenseSummary from './ExpenseSummary'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -75,12 +76,8 @@ export default {
     ExpenseSummary,
   },
   computed: {
-    getExpenseListForThisMonth() {
-      return this.$store.getters.getExpensesCurrentMonth
-    },
-    getExpenseListForLastMonth() {
-      return this.$store.getters.getExpensesLastMonth
-    },
+    ...mapGetters(['getExpensesCurrentMonth', 'getExpensesLastMonth']),
+    ...mapActions(['refreshExpensesList', 'setExpensesForLastMonth'])
   },
   methods: {    
     logout() {
@@ -88,8 +85,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('updateExpenses')
-    this.$store.dispatch('loadExpensesFromLastMonth')
+    this.refreshExpensesList
+    this.setExpensesForLastMonth
 	},
 }
 </script>

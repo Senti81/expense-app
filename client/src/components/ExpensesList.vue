@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <tr 
-            v-for="item in getExpenseListForCurrentMonth" 
+            v-for="item in getExpensesCurrentMonth" 
             :key="item.id" 
           >
             <td>
@@ -54,6 +54,7 @@
 <script>
 import UpdateExpense from './UpdateExpense'
 import DeleteExpense from './DeleteExpense'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -61,12 +62,7 @@ export default {
     DeleteExpense
   },
   computed: {
-    getUserDetails() {
-      return this.$store.getters.getUserDetails
-    },
-    getExpenseListForCurrentMonth() {
-      return this.$store.getters.getExpensesCurrentMonth
-    }
+    ...mapGetters(['getUserDetails', 'getExpensesCurrentMonth'])
   }
 }
 </script>

@@ -27,25 +27,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
     expenseList: Array,
     isCurrentMonth: Boolean
   },
   computed: {
+    ...mapGetters(['getUserDetails', 'getContribution']),
     calculateTotalSum() {
       return this.expenseList.reduce((acc, cur) => 
         acc + parseFloat(cur.amount), 0).toFixed(2)
     },
     calculateSumForUser() {
       return this.expenseList.reduce((acc, cur) => 
-        cur.name === this.$store.getters.getUserDetails.name ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
+        cur.name === this.getUserDetails.name ? acc + parseFloat(cur.amount) : acc, 0).toFixed(2)
 		},
     calculateDifference() {
-      return (this.calculateTotalSum)/2 - (this.calculateSumForUser) + this.getContribution
+      return this.calculateTotalSum /2 - this.calculateSumForUser + this.calculateContribution
     },
-    getContribution() {
-      return this.$store.getters.getUserDetails.role === 'ADMIN' ? -this.$store.getters.getContribution : this.$store.getters.getContribution
+    calculateContribution() {
+      return this.getUserDetails.role === 'ADMIN' ? -this.getContribution : this.getContribution
     }
   }
 }

@@ -55,11 +55,11 @@ export default {
 						'Authorization': this.$store.getters.getToken 
 					}
 				})
-				this.$store.dispatch('updateExpenses')
-				this.dialog = false
+				this.$store.dispatch('refreshExpensesList')
 			} catch (error) {
 				console.error(error)
 			} finally {
+				this.dialog = false
 				this.amount = ''
 			}
 		},

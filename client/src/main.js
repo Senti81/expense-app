@@ -8,8 +8,6 @@ moment.locale('de')
 Vue.config.productionTip = false
 Vue.prototype.moment = moment
 
-export const eventBus = new Vue();
-
 new Vue({
   vuetify,
   store,

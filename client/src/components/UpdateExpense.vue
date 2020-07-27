@@ -10,7 +10,7 @@
 				<v-card-title class="headline">Buchung bearbeiten</v-card-title>
         <v-container>
 					<v-text-field 
-						v-model="amount"
+						v-model="amountToChange"
 						label="Neuer Betrag"
 						type="number"
 						step="0.01"
@@ -38,18 +38,19 @@ export default {
 	},
 	data () {
 		return {
-			dialog: false
+			dialog: false,
+			amountToChange: this.amount
 		}
 	},
 	methods: {
 		async update(id) {
 			try {
-				await axios.put(`api/expenses/${id}`, { amount: this.amount }, {
+				await axios.put(`api/expenses/${id}`, { amount: this.amountToChange }, {
 					headers: { 
 						'Authorization': this.$store.getters.getToken 
 					}
 				})
-				this.$store.dispatch('updateExpenses')
+				this.$store.dispatch('refreshExpensesList')
 				this.dialog = false
 			} catch (error) {
 				console.error(error)

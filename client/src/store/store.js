@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 import axios from 'axios'
+import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -15,28 +15,17 @@ export const store = new Vuex.Store({
     contribution: 300
   },
   mutations: {
-    toggleLoading(state) {
-      state.loading = !state.loading
-    },
-    updateExpensesList(state, payload) {
-      state.expensesCurrentMonth = payload
-    },
-    loadExpensesFromLastMonth(state, payload) {
-      state.expensesLastMonth = payload
-    },
-    setUserDetails(state, payload) {
-      state.userDetails = payload
-    },
+    toggleLoading: state => state.loading = !state.loading,
+    refreshExpensesList: (state, payload) => state.expensesCurrentMonth = payload,
+    setExpensesForLastMonth: (state, payload) => state.expensesLastMonth = payload,
+    setUserDetails: (state, payload) => state.userDetails = payload,
+    setToken: (state, payload) => state.token = payload,  
     logout(state) {
-      state.loggedIn = false
       state.token = '',
       state.userDetails = {},
       state.expenses = [],
       localStorage.removeItem('Authorization')
     },
-    setToken(state, payload) {
-      state.token = payload
-    }  
   },
   actions:{
     async validateToken({commit}, token) {
@@ -52,33 +41,44 @@ export const store = new Vuex.Store({
         localStorage.removeItem('Authorization')
       }
     },
-    async updateExpenses({commit}) {  
+    async refreshExpensesList({commit}) {
       commit('toggleLoading')
-			const tokenFromStorage = localStorage.getItem('Authorization')
-			if(tokenFromStorage) {
+			if(this.state.token) {
 				try {
-					const response = await axios.get('api/expenses/current', {
-						headers: { 'Authorization': tokenFromStorage}
+					const response = await axios.get('api/expenses/', {
+						headers: { 'Authorization': this.state.token }
 					})
-          commit('updateExpensesList', response.data)
+
+          const currentMonth = response.data.filter(expense => 
+            moment(new Date(expense.created_at)).month() === moment().month() &&
+            moment(new Date(expense.created_at)).year() === moment().year())
+          commit('refreshExpensesList', currentMonth)
+
 				} catch (error) {
-					localStorage.clear();
+					this.state.token = ''
 				} finally {
           commit('toggleLoading')
         }
 			}
 		},
-    async loadExpensesFromLastMonth({commit}) {
-			const tokenFromStorage = localStorage.getItem('Authorization')
-			if(tokenFromStorage) {
+    async setExpensesForLastMonth({commit}) {
+      commit('toggleLoading')
+			if(this.state.token) {
 				try {
-					const response = await axios.get('api/expenses/last', {
-						headers: { 'Authorization': tokenFromStorage}
-					})
-          commit('loadExpensesFromLastMonth', response.data)
+					const response = await axios.get('api/expenses/', {
+						headers: { 'Authorization': this.state.token }
+          })
+          
+          const lastMonth = response.data.filter(expense => 
+            moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&
+            moment(new Date(expense.created_at)).year() === moment().year())
+          commit('setExpensesForLastMonth', lastMonth)
+
 				} catch (error) {
-					localStorage.clear();
-				}
+					this.state.token = ''
+				} finally {
+          commit('toggleLoading')
+        }
 			}
 		},
   },
@@ -86,7 +86,6 @@ export const store = new Vuex.Store({
     isLoading: state => state.loading,
     getExpensesCurrentMonth: state => state.expensesCurrentMonth,
     getExpensesLastMonth: state => state.expensesLastMonth,
-    isLoggedIn: state => state.loggedIn,
     getUserDetails: state => state.userDetails,
     getToken: state => state.token,
     getContribution: state => state.contribution,
