@@ -14,6 +14,14 @@ export const store = new Vuex.Store({
     expensesLastMonth: [],
     contribution: 300
   },
+  getters: {
+    isLoading: state => state.loading,
+    getExpensesCurrentMonth: state => state.expensesCurrentMonth,
+    getExpensesLastMonth: state => state.expensesLastMonth,
+    getUserDetails: state => state.userDetails,
+    getToken: state => state.token,
+    getContribution: state => state.contribution,
+  },
   mutations: {
     toggleLoading: state => state.loading = !state.loading,
     refreshExpensesList: (state, payload) => state.expensesCurrentMonth = payload,
@@ -26,8 +34,13 @@ export const store = new Vuex.Store({
       state.expenses = [],
       localStorage.removeItem('Authorization')
     },
+    addExpense: (state, expense) => state.expensesCurrentMonth.push(expense),
+    deleteExpense: (state, id) => state.expensesCurrentMonth = state.expensesCurrentMonth.filter(item => item.id !== id),
+    updateExpense: (state, payload) => 
+      state.expensesCurrentMonth = state.expensesCurrentMonth.map(item => 
+        item.id === payload.id ? {...item, amount: payload.amount} : item)
   },
-  actions:{
+  actions: {
     async validateToken({commit}, token) {
       try {
         const userDetails = await axios.get('/api/auth', {
@@ -54,40 +67,16 @@ export const store = new Vuex.Store({
             moment(new Date(expense.created_at)).year() === moment().year())
           commit('refreshExpensesList', currentMonth)
 
-				} catch (error) {
-					this.state.token = ''
-				} finally {
-          commit('toggleLoading')
-        }
-			}
-		},
-    async setExpensesForLastMonth({commit}) {
-      commit('toggleLoading')
-			if(this.state.token) {
-				try {
-					const response = await axios.get('api/expenses/', {
-						headers: { 'Authorization': this.state.token }
-          })
-          
           const lastMonth = response.data.filter(expense => 
             moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&
             moment(new Date(expense.created_at)).year() === moment().year())
           commit('setExpensesForLastMonth', lastMonth)
-
 				} catch (error) {
 					this.state.token = ''
 				} finally {
           commit('toggleLoading')
         }
 			}
-		},
-  },
-  getters: {
-    isLoading: state => state.loading,
-    getExpensesCurrentMonth: state => state.expensesCurrentMonth,
-    getExpensesLastMonth: state => state.expensesLastMonth,
-    getUserDetails: state => state.userDetails,
-    getToken: state => state.token,
-    getContribution: state => state.contribution,
+		}
   }
 })

@@ -25,15 +25,14 @@
             :key="item.id" 
           >
             <td>
-              <v-row>
+              <v-row v-if="item.name === getUserDetails.name || getUserDetails.role === 'ADMIN'">
                 <v-col class="text-center">
                   <UpdateExpense
-                    v-if="item.name === getUserDetails.name || getUserDetails.role === 'ADMIN'"
                     :id="item.id"
                     :amount="item.amount"
                   />
                 </v-col>
-                <v-col v-if="getUserDetails.role === 'ADMIN'">
+                <v-col>
                   <DeleteExpense                     
                     :id="item.id"
                   />

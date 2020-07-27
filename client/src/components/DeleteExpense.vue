@@ -33,11 +33,13 @@ export default {
 		async deleteExpense(id) {
       try {
         await axios.delete(`api/expenses/${id}`, {
-          headers: { 'Authorization': this.$store.getters.getToken}
+          headers: { 'Authorization': this.$store.getters.getToken }
         })
-        this.$store.dispatch('refreshExpensesList')        
+        this.$store.commit('deleteExpense', id)        
       } catch (error) {
         console.log(error)
+      } finally {
+        this.dialog = false
       }
     },
 		reset() {

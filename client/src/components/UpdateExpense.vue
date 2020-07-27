@@ -50,7 +50,10 @@ export default {
 						'Authorization': this.$store.getters.getToken 
 					}
 				})
-				this.$store.dispatch('refreshExpensesList')
+				this.$store.commit('updateExpense', {
+					id,
+					amount: parseFloat(this.amountToChange).toFixed(2)
+				})
 				this.dialog = false
 			} catch (error) {
 				console.error(error)

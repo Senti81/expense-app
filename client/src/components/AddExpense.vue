@@ -50,12 +50,17 @@ export default {
 	methods: {
 		async addExpense() {
 			try {
-				await axios.post('api/expenses', { amount: this.amount }, {
+				const result = await axios.post('api/expenses', { amount: this.amount }, {
 					headers: { 
 						'Authorization': this.$store.getters.getToken 
 					}
 				})
-				this.$store.dispatch('refreshExpensesList')
+				this.$store.commit('addExpense', {
+					id: result.data.id,
+					amount: parseFloat(this.amount).toFixed(2),
+					name: this.$store.getters.getUserDetails.name,
+					created_at: result.data.created_at
+				})
 			} catch (error) {
 				console.error(error)
 			} finally {
