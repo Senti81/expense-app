@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const knex = require('../db/connection');
-const { from } = require('../db/connection');
 
 router.get('/', async (req, res) => {
     const allRoles = await knex('users')

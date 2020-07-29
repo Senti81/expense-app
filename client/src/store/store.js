@@ -24,7 +24,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     toggleLoading: state => state.loading = !state.loading,
-    refreshExpensesList: (state, payload) => state.expensesCurrentMonth = payload,
+    setExpensesForThisMonth: (state, payload) => state.expensesCurrentMonth = payload,
     setExpensesForLastMonth: (state, payload) => state.expensesLastMonth = payload,
     setUserDetails: (state, payload) => state.userDetails = payload,
     setToken: (state, payload) => state.token = payload,  
@@ -54,7 +54,7 @@ export const store = new Vuex.Store({
         localStorage.removeItem('Authorization')
       }
     },
-    async refreshExpensesList({commit}) {
+    async setExpenses({commit}) {
       commit('toggleLoading')
 			if(this.state.token) {
 				try {
@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
           const currentMonth = response.data.filter(expense => 
             moment(new Date(expense.created_at)).month() === moment().month() &&
             moment(new Date(expense.created_at)).year() === moment().year())
-          commit('refreshExpensesList', currentMonth)
+          commit('setExpensesForThisMonth', currentMonth)
 
           const lastMonth = response.data.filter(expense => 
             moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&

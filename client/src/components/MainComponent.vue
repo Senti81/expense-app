@@ -3,8 +3,6 @@
     class="overflow-hidden"
     min-height="100%"
     >
-
-    <!-- NavigationBar -->
     <v-app-bar 
       absolute
       dark
@@ -29,8 +27,6 @@
         </v-list> 
       </v-menu>
     </v-app-bar>
-
-    <!-- ExpenseSummary -->
     <v-container>
       <v-row>
         <v-col>
@@ -51,8 +47,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- ExpenseList -->
     <v-sheet
       id="scrolling-techniques-7"
       class="overflow-y-auto"
@@ -77,7 +71,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getExpensesCurrentMonth', 'getExpensesLastMonth']),
-    ...mapActions(['refreshExpensesList', 'setExpensesForLastMonth'])
+    ...mapActions(['setExpenses'])
   },
   methods: {    
     logout() {
@@ -85,8 +79,7 @@ export default {
     },
   },
   mounted() {
-    this.refreshExpensesList
-    this.setExpensesForLastMonth
+    this.setExpenses
 	},
 }
 </script>

@@ -10,34 +10,6 @@ router.get('/', verify, async (req, res) => {
     res.json(allExpenses);
 });
 
-router.get('/current', verify, async (req, res) => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth()+1;
-    const allExpenses = await knex('expenses')
-        .join('users', 'user_id', '=', 'users.id')
-        .select('expenses.id as id', 'users.name as name', 'amount', 'expenses.created_at')
-        .whereRaw('Month(expenses.created_at) = ?', currentMonth)
-        .whereRaw('Year(expenses.created_at) = ?', currentYear)
-        .orderBy('expenses.created_at', 'asc')
-    res.json(allExpenses);
-});
-
-router.get('/last', verify, async (req, res) => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    if (currentMonth === 0) {
-        currentMonth = 11
-        currentYear-= 1
-    }
-    const allExpenses = await knex('expenses')
-        .join('users', 'user_id', '=', 'users.id')
-        .select('expenses.id as id', 'users.name as name', 'amount', 'expenses.created_at')
-        .whereRaw('Month(expenses.created_at) = ?', currentMonth)
-        .whereRaw('Year(expenses.created_at) = ?', currentYear)
-        .orderBy('expenses.created_at', 'asc')
-    res.json(allExpenses);
-});
-
 router.get('/:id', verify, async (req, res, next) => {
     const expenseById = await getById(req.params.id).first();
     expenseById ? res.json(expenseById) : next();
@@ -62,8 +34,6 @@ router.put('/:id', verify, async (req, res, next) => {
 });
 
 router.delete('/:id', verify, async (req, res, next) => {
-    if (req.user.role !== 'ADMIN')
-        return res.sendStatus(403);
     const deletedExpense = await getById(req.params.id).del();
     deletedExpense === 1 ? res.json(deletedExpense) : next();
 });
