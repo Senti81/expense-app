@@ -67,9 +67,17 @@ export const store = new Vuex.Store({
             moment(new Date(expense.created_at)).year() === moment().year())
           commit('setExpensesForThisMonth', currentMonth)
 
-          const lastMonth = response.data.filter(expense => 
-            moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&
-            moment(new Date(expense.created_at)).year() === moment().year())
+          // special case for January
+          let lastMonth
+          if (moment().month() === 0) {
+            lastMonth = response.data.filter(expense => 
+              moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&
+              moment(new Date(expense.created_at)).year() === moment().subtract(1, 'years').year())
+          } else {            
+            lastMonth = response.data.filter(expense => 
+              moment(new Date(expense.created_at)).month() === moment().subtract(1, 'months').month() &&
+              moment(new Date(expense.created_at)).year() === moment().year())
+          }
           commit('setExpensesForLastMonth', lastMonth)
 				} catch (error) {
 					this.state.token = ''
